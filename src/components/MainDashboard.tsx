@@ -13,6 +13,7 @@ import {
   Divider,
   Box,
   Tooltip,
+  Container,
 } from '@mui/material';
 import {
   Menu as MenuIcon,
@@ -27,14 +28,14 @@ import Feeds from './Feeds';
 import StudyGroupsPage from './StudyGroups';
 import Profile from './MyProfile';
 import Dashboard from './Dashboard';
-import { useAuthenticator } from '@aws-amplify/ui-react';
+import { Grid, Link, useAuthenticator } from '@aws-amplify/ui-react';
 import ResourcePage from './Resources';
 
 function MainDashboard(props) {
-  const [component, setComponent] = useState(1);
+  const [component, setComponent] = useState(5);
   const [header, setHeader] = useState('Campus Connect');
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [activeItem, setActiveItem] = useState(1); // Track the active menu item
+  const [activeItem, setActiveItem] = useState(5); // Track the active menu item
 
   const switchComponent = (page) => {
     setComponent(page);
@@ -79,9 +80,9 @@ function MainDashboard(props) {
   ];
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height:'100%' }}>
       <CssBaseline />
-      <AppBar position="fixed" sx={{ zIndex: 1300, bgcolor: '#1a73e8' }}>
+      <AppBar sx={{ zIndex: 1300, bgcolor: '#1a73e8' }}>
         <Toolbar>
           <IconButton
             edge="start"
@@ -153,8 +154,39 @@ function MainDashboard(props) {
       <main style={{ flex: 1, marginTop: '64px', padding: '16px' }}>
         {renderComponent()}
       </main>
+      <Footer/>
+
     </div>
   );
 }
 
 export default MainDashboard;
+
+
+const Footer = () => {
+  return (
+    <footer style={{ backgroundColor: '#1a1a1a', color: '#ffffff', padding: '20px', marginTop: '40px' }}>
+      <div style={{ width:'100%', margin: '0 auto', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
+        <div style={{ flex: 1, minWidth: '250px', marginBottom: '20px' }}>
+          <h3>About Us</h3>
+          <p style={{ fontSize: '14px', color: '#cccccc' }}>
+            We are committed to delivering the best online resources for our users. Contact us for more information.
+          </p>
+        </div>
+        
+        <div style={{ flex: 1, minWidth: '250px', marginBottom: '20px' }}>
+          <h3>Follow Us</h3>
+          <p style={{ fontSize: '14px' }}>
+            <a href="#" style={{ color: '#ffffff', textDecoration: 'none', marginRight: '10px' }}>Facebook</a>
+            <a href="#" style={{ color: '#ffffff', textDecoration: 'none', marginRight: '10px' }}>Twitter</a>
+            <a href="#" style={{ color: '#ffffff', textDecoration: 'none' }}>Instagram</a>
+          </p>
+        </div>
+      </div>
+      <div style={{ textAlign: 'center', color: '#999999', fontSize: '14px', marginTop: '20px' }}>
+        © {new Date().getFullYear()} Indiana Campus Connect. All rights reserved.
+      </div>
+    </footer>
+  );
+};
+

@@ -137,9 +137,10 @@ const getUser = async () => {
   console.log(user);
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'row', height: '100vh', p: 2}}>
+    <div style={{minWidth:'100%'}}>
+    <Box sx={{ display: 'flex', flexDirection: 'row'}}>
       {/* Profile Sidebar */}
-      <Box sx={{ width: '300px', p: 2 }}>
+      <Box sx={{ p: 2 }}>
         <Paper
           elevation={1}
           sx={{
@@ -375,6 +376,7 @@ const getUser = async () => {
         </Box>
       </Drawer>
     </Box>
+    </div>
   );
 };
 

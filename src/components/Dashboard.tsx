@@ -97,7 +97,7 @@ const {user} = useAuthenticator();
   ];
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
       <Container sx={{ flexGrow: 1, mt: 4 }}>
         <Typography variant="h4" gutterBottom>
           Dashboard
