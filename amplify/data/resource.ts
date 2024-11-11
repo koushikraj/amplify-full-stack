@@ -1,4 +1,5 @@
-import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
+import { type ClientSchema, a, defineData, defineFunction } from "@aws-amplify/backend";
+import { Operation } from "aws-cdk-lib/aws-dynamodb";
 
 /*== STEP 1 ===============================================================
 The section below creates a Todo database table with a "content" field. Try
@@ -7,11 +8,73 @@ specifies that any user authenticated via an API key can "create", "read",
 "update", and "delete" any "Todo" records.
 =========================================================================*/
 const schema = a.schema({
-  Todo: a
-    .model({
+  // Todo: a
+  //   .model({
+  //     content: a.string(),
+  //   })
+  //   .authorization(allow => [allow.owner()]),
+  Post: a.model({
+      // Defining fields for Post data
+      id: a.string().required(),
       content: a.string(),
+      likes: a.email().array().required().authorization(allow => allow.authenticated()), // A list of email or user IDs
+      dislikes: a.string().array().required(), // A list of dislikes
+      subfeed: a.string(), // The category/subfeed of the post
+      timestamp: a.string(), // Timestamp in ISO format
+      user: a.string(), // The user who created the post
+      title: a.string().required(), // The title of the post
     })
-    .authorization((allow) => [allow.publicApiKey()]),
+    .authorization(allow => [
+      // Allow anyone auth'd with an API key to read everyone's posts.
+    allow.authenticated().to(['read']),
+    // Allow signed-in user to create, read, update,
+    // and delete their __OWN__ posts.
+    allow.owner(),
+    ]),
+    
+  SubFeed: a.model({
+    post: a.string(),
+    content: a.string(),
+    comementor: a.string(),
+  })
+  .authorization(allow => [allow.owner(), allow.authenticated().to(["list"])]),
+  
+  StudyGroup: a.model({
+    title: a.string().required(),
+    description: a.string().required(),
+    subject: a.string().required(),
+    members: a.email().array().required(),
+    professor: a.string().required(),
+    comments: a.string().array()
+  })
+  .authorization(allow => [allow.owner(), allow.authenticated().to(["list"])]),
+  
+  FlashCard: a.customType({
+    title: a.string().required(),
+    description: a.string().required(),
+    details: a.string()
+  }),
+
+  Resource: a.model({
+    title: a.string(),
+    link: a.string(),
+    category: a.string(),
+    professor: a.string(),
+    description: a.string(),
+    flashcards: a.ref('FlashCard').required().array()
+  })
+  .authorization(allow => [allow.owner(), allow.authenticated().to(["list"])]),
+
+  User: a.model({
+    userId: a.string(),
+    name: a.string(),
+    familyName: a.string(),
+    preferredName: a.string(),
+    major: a.string(),
+    email: a.email(),
+  })
+  .authorization(allow => [allow.owner(), allow.authenticated().to(["list"])]),
+
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -19,11 +82,10 @@ export type Schema = ClientSchema<typeof schema>;
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: "apiKey",
-    // API Key is used for a.allow.public() rules
+    defaultAuthorizationMode: 'userPool',
     apiKeyAuthorizationMode: {
-      expiresInDays: 30,
-    },
+      expiresInDays: 30
+    }
   },
 });
 
