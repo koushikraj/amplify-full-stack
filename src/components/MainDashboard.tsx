@@ -31,10 +31,10 @@ import { useAuthenticator } from '@aws-amplify/ui-react';
 import ResourcePage from './Resources';
 
 function MainDashboard(props) {
-  const [component, setComponent] = useState(0);
+  const [component, setComponent] = useState(1);
   const [header, setHeader] = useState('Campus Connect');
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [activeItem, setActiveItem] = useState(0); // Track the active menu item
+  const [activeItem, setActiveItem] = useState(1); // Track the active menu item
 
   const switchComponent = (page) => {
     setComponent(page);
