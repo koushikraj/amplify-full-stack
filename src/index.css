@@ -66,4 +66,6 @@ a {
 
 div#root {
   width: inherit;
+  align-content: center;
+  background-image: url("https://letmein.indianatech.edu/_layouts/images/PG/images/Abbot-Center3.jpg");
 }

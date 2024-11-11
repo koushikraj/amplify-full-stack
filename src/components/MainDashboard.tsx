@@ -80,7 +80,7 @@ function MainDashboard(props) {
   ];
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height:'100%' }}>
+    <div style={{ display: 'flex', backgroundColor: 'cornsilk' ,flexDirection: 'column', height:'100%' }}>
       <CssBaseline />
       <AppBar sx={{ zIndex: 1300, bgcolor: '#1a73e8' }}>
         <Toolbar>
