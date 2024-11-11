@@ -63,3 +63,7 @@ a {
   font-weight: 800;
   text-decoration: none;
 }
+
+div#root {
+  width: inherit;
+}
